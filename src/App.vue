@@ -3,7 +3,6 @@
     <div id="nav">
       <router-view v-if="isRouterAlive"></router-view>
     </div>
-    <router-view/>
   </div>
 </template>
 <script>

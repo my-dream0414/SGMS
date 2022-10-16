@@ -25,8 +25,16 @@ const routes = [
         // 学生模块路由
         path: '/student',
         component: () => import(/* webpackChunkName: "dashboard" */ '../components/student/Main.vue'),
-        meta: { title: '学生首页' }
-        // children:[] 学生下一级路由
+        meta: { title: '学生首页' },
+        children:[
+          {
+            // 班主任模块路由
+            path: '/correct',
+            component: () => import(/* webpackChunkName: "dashboard" */ '../components/student/Correct.vue'),
+            meta: { title: '班主任首页' }
+            // children:[]  班主任下一级路由
+          },
+        ] //学生下一级路由
       },
       {
         // 班主任模块路由
