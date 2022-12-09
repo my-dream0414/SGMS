@@ -1,20 +1,20 @@
 <template>
   <div class="wrapper">
-      <!-- <v-sidebar v-if="admin"></v-sidebar>
+    <!-- <v-sidebar v-if="admin"></v-sidebar>
       <v-sidebart v-else ></v-sidebart> -->
-       <!-- <component :is="who"></component> -->
-       <!-- <component :is="who"></component> -->
+    <!-- <component :is="who"></component> -->
+    <!-- <component :is="who"></component> -->
 
-      <div class="content-box" :class="{'content-collapse':collapse}">
-          <div class="content">
-              <transition name="move" mode="out-in">
-                  <keep-alive :include="tagsList">
-                      <router-view></router-view>
-                  </keep-alive>
-              </transition>
-              <el-backtop target=".content"></el-backtop>
-          </div>
+    <div class="content-box" :class="{ 'content-collapse': collapse }">
+      <div class="content">
+        <transition name="move" mode="out-in">
+          <keep-alive :include="tagsList">
+            <router-view></router-view>
+          </keep-alive>
+        </transition>
+        <el-backtop target=".content"></el-backtop>
       </div>
+    </div>
   </div>
 </template>
 
@@ -22,13 +22,13 @@
 export default {
   name: "name",
   data() {
-      return {
-          tagsList: [],
-          collapse: false,
-          admin:true,
-          student:false,
-          who:localStorage.getItem('Mcomponent')
-      };
+    return {
+      tagsList: [],
+      collapse: false,
+      admin: true,
+      student: false,
+      who: localStorage.getItem("Mcomponent"),
+    };
   },
   // created() {
   //     bus.$on('collapse-content', msg => {
@@ -50,10 +50,10 @@ export default {
   //         this.tagsList = arr;
   //     });
   // },
-  methods:{
-      change:function(){
-          this.who = 'vSidebart';
-      }
-  }
+  methods: {
+    change: function () {
+      this.who = "vSidebart";
+    },
+  },
 };
 </script>

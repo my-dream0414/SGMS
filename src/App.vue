@@ -7,26 +7,26 @@
 </template>
 <script>
 export default {
-  name: 'App',
-  provide(){
+  name: "App",
+  provide() {
     return {
-      reload: this.reload
-    }
+      reload: this.reload,
+    };
   },
   data() {
     return {
-      isRouterAlive :true
-    }
+      isRouterAlive: true,
+    };
   },
   methods: {
     reload() {
-      this.isRouterAlive = false
+      this.isRouterAlive = false;
       this.$nextTick(function () {
-        this.isRouterAlive = true
-      })
-    }
-  }
-}
+        this.isRouterAlive = true;
+      });
+    },
+  },
+};
 </script>
 <style>
 #app {
