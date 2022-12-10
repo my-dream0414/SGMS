@@ -12,24 +12,24 @@
           </div>
           <div class="user-info-list">
             班级：
-            <span>{{ this.class }}</span>
+            <span>{{this.class}}</span>
           </div>
           <div class="user-info-list">
             学号：
-            <span>{{ this.stuId }}</span>
+            <span>{{(this.stuId)}}</span>
           </div>
           <div class="user-info-list">
             专业：
-            <span>{{ this.major }}</span>
+            <span>{{this.major}}</span>
           </div>
           <div class="user-info-list">
             身份
-            <span>{{ this.role }}</span>
+            <span>{{this.role}}</span>
           </div>
           <!-- <router-link to="/correct" class="correctBtn">修改</router-link> -->
-        </el-card>
-      </el-col>
-    </el-row>
+</el-card>
+</el-col>
+</el-row>
   </div>
 </template>
 
@@ -49,11 +49,16 @@ export default {
     };
   },
 
-  components: {},
 
-  computed: {},
+  components: {
+  },
+
+  computed: {
+
+  },
   mounted() {
-    this.getInfo().then((res) => {
+
+    this.getInfo().then(res => {
       const data = res.data;
       this.userName = data.name;
       this.role = data.name;
@@ -68,6 +73,7 @@ export default {
       const res = await fetch(mockUrl + "/getStudentInfo", {
         headers: {
           token: token,
+
         },
       });
       return res.json();

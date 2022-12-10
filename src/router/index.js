@@ -57,6 +57,7 @@ const routes = [
             component: () => import("../components/teacher/StuInfoManage.vue"),
           },
         ],
+
       },
     ],
   },
@@ -83,5 +84,26 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+
+// 全局前置路由守卫---初始化的时候被调用、每次路由切换的时候被调用
+router.beforeEach((to, from, next) => {
+  console.log(to);
+  //这里是一个简单的例子
+  //即判断用户是否进入了需要鉴权的路由下（这里距离为news和message）
+  if (to.path == '/admin' || to.path === '/teach' || to.path === '/student') {
+    //如果进入了，那就判断本地是否缓存了信息（这里模拟登录的token)
+    console.log(localStorage)
+    if (localStorage.getItem('name') === 'student') {
+      next()
+    }
+    else{
+      console.log("回到登录页面")
+      next({ path : " \login " })
+      // next()
+    }
+  }else{
+    next()
+  }
+})
 
 export default router;

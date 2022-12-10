@@ -73,7 +73,9 @@ export default {
         return Message.error({
           message: "请输入完整的登陆信息！",
           duration: 1000,
+
         });
+
       }
       this.login(mockUrl + "/userLogin", {
         userName: this.name,

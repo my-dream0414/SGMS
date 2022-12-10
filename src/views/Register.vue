@@ -8,6 +8,7 @@
             <div class="login_input_box">
               <div class="login_input_detali">
                 <div class="login_user">
+
                   <el-input
                     size="large"
                     placeholder="用户名"
@@ -76,22 +77,26 @@
 </template>
 
 <script>
+
 import { Message } from "element-ui";
 import { mockUrl } from "../config";
+
+
 export default {
   name: "register",
   data() {
     return {
       data: {
-        name: "",
-        email: "",
-        password: "",
-        password2: "",
-        options: [
-          { value: "学生", label: "学生" },
-          { value: "教师", label: "教师" },
-        ],
-        value: "",
+
+      name: "",
+      email: "",
+      password: "",
+      password2: "",
+      options: [
+        { value: "学生", label: "学生" },
+        { value: "教师", label: "教师" },
+      ],
+      value: "",
       },
       confirmData: {
         name: "用户名不能为空！",
@@ -100,6 +105,7 @@ export default {
         password: "密码不能为空！",
         password2: "密码不能为空！",
       },
+
     };
   },
   methods: {
@@ -110,13 +116,16 @@ export default {
             message: this.confirmData[key],
             duration: 1000,
           });
+
         }
       }
       if (this.data.password !== this.data.password2) {
         return Message.error({
           message: "两次密码不一致!",
           duration: 1000,
+
         });
+
       }
       const res = await fetch(url, {
         method: "post",
@@ -126,9 +135,11 @@ export default {
     },
     handelClick() {
       const roleData = {
+
         学生: "student",
         教师: "teacher",
       };
+
       this.register(mockUrl + "/userRegiste", {
         name: this.data.name,
         email: this.data.email,
@@ -153,6 +164,7 @@ export default {
         });
     },
   },
+
 };
 </script>
 
@@ -208,6 +220,7 @@ export default {
   font-size: 40px;
   font-weight: 500;
 }
+
 .login_email {
   margin-top: 30px;
 }
