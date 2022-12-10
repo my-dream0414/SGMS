@@ -62,6 +62,17 @@ export default {
       radio: "",
     };
   },
+  computed: {
+    GetUserinfo() {
+      return this.$store.state.userinfo;
+    },
+  },
+  watch: {
+    GetUserinfo: function () {
+      var x = this.$store.state.userinfo;
+      // login()
+    },
+  },
   methods: {
     login() {
       console.log("login method");
@@ -99,15 +110,23 @@ export default {
       //   }
       // })
       if (this.name == "admin" && this.password == "123456") {
+        console.log("信息认证")
         if (this.name == "admin") {
-          this.$router.push("/admin");
+          console.log("认证成功")
+          // this.$router.push("/admin");
+          this.$router.push({ path: '/admin' }, () => {})
+          this.$store.commit('GetUserinfo',this.name)
+          localStorage.setItem("name","caibin")
+          localStorage.name = "caibin"
         }
-        this.message({
-          message: "登录成功",
-          type: "success",
-        });
+        // this.message({
+        //   message: "登录成功",
+        //   type: "success",
+        // });
       } else if (this.name == "student" && this.password == "123456") {
         this.$router.push("/student");
+        localStorage.setItem("name","student")
+          localStorage.name = "student"
       } else if (this.name == "headteacher" && this.password == "123456") {
         this.$router.push("/head");
       } else if (this.name == "teacher" && this.password == "123456") {

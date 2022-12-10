@@ -30,17 +30,41 @@
             性别：
             <span>女</span>
           </div>
-          <el-button style="padding: 3px 0" type="text" @click="correct">信息修改</el-button>
+          <el-button style="padding: 3px 0" type="text" @click="correct"
+            >信息修改</el-button
+          >
           <!-- <router-link to="/correct" class="correctBtn">修改</router-link> -->
 
           <el-dialog
             class="assignWorkloadDialog"
-            title="工时指派"
-            :visible="workDetailDialogVisible"
-            width="40%"
+            title="信息修改"
+            :visible.sync="workDetailDialogVisible"
+            width="50%"
             :modal="false"
-          
           >
+            <!-- :model='formData' -->
+            <el-form label-width="80px">
+              <el-form-item label="日期：">
+                <el-input v-model="this.date"></el-input>
+              </el-form-item>
+              <el-form-item label="姓名：">
+                <el-input v-model="this.name"></el-input>
+              </el-form-item>
+              <el-form-item label="地址：">
+                <el-input v-model="this.address"></el-input>
+              </el-form-item>
+              <el-form-item label="邮箱：">
+                <el-input ></el-input>
+              </el-form-item>
+              <el-form-item label="邮箱：">
+                <el-input ></el-input>
+              </el-form-item>
+            </el-form>
+            <div class="login_button">
+              <el-button type="primary" class="login_btn" @click="submit"
+                >提交</el-button
+              >
+            </div>
           </el-dialog>
         </el-card>
 
@@ -64,7 +88,7 @@
                 <i class="el-icon-lx-people grid-con-icon"></i>
                 <div class="grid-cont-right">
                   <div class="grid-num">1234</div>
-                  <div>用户访问量</div>
+                  <div>学分</div>
                 </div>
               </div>
             </el-card>
@@ -75,7 +99,7 @@
                 <i class="el-icon-lx-notice grid-con-icon"></i>
                 <div class="grid-cont-right">
                   <div class="grid-num">321</div>
-                  <div>系统消息</div>
+                  <div>及格课程数</div>
                 </div>
               </div>
             </el-card>
@@ -86,92 +110,154 @@
                 <i class="el-icon-lx-goods grid-con-icon"></i>
                 <div class="grid-cont-right">
                   <div class="grid-num">5000</div>
-                  <div>数量</div>
+                  <div>不及格课程数</div>
                 </div>
               </div>
             </el-card>
           </el-col>
         </el-row>
-        <el-card shadow="hover" style="height: 403px">
-          <div slot="header" class="clearfix">
-            <span>成绩表</span>
-          </div>
-          <el-table :show-header="false" :data="todoList" style="width: 100%">
-            <el-table-column width="40">
-              <template slot-scope="scope">
-                <el-checkbox v-model="scope.row.status"></el-checkbox>
-              </template>
+
+        <el-card shadow="hover" style="height: 530px">
+          <el-menu>成绩表</el-menu>
+          <!-- 成绩表导航栏 -->
+          <!-- :default-active="path" : 路由监听 -->
+
+          <el-menu
+            class="el-menu-demo"
+            mode="horizontal"
+            @select="handleSelect"
+            text-color="black"
+            background-color="white"
+            active-text-color="#31c27c"
+            router
+          >
+            <!-- el-menu-item：根据数据v-for生成 -->
+            <!-- 添加一级菜单 -->
+            <el-menu-item index="1">第一学期</el-menu-item>
+            <el-menu-item index="2">第二学期</el-menu-item>
+            <el-menu-item index="3">第三学期</el-menu-item>
+            <el-menu-item index="4">第四学期</el-menu-item>
+          </el-menu>
+          <el-table
+            :data="table_data"
+            header-row-class-name="header_row_className"
+            height="420"
+            border
+            style="width: 100%"
+          >
+            <el-table-column align="center" prop="subject" label="科目">
             </el-table-column>
-            <el-table-column>
-              <template slot-scope="scope">
-                <div
-                  class="todo-item"
-                  :class="{ 'todo-item-del': scope.row.status }"
-                >
-                  {{ scope.row.title }}
-                </div>
-              </template>
+            <!-- <template slot-scope="scope"></template> -->
+            <el-table-column align="center" prop="credit" label="学分">
             </el-table-column>
-            <el-table-column width="60">
-              <template>
-                <i class="el-icon-edit"></i>
-                <i class="el-icon-delete"></i>
-              </template>
+            <el-table-column prop="score" label="分数" align="center">
+            </el-table-column>
+            <el-table-column
+              prop="point"
+              label="绩点"
+              align="center"
+              width="100"
+            >
+            </el-table-column>
+            <el-table-column prop="term" label="学期" align="center">
             </el-table-column>
           </el-table>
         </el-card>
       </el-col>
     </el-row>
-    <!--<el-row :gutter="20">
-            <el-col :span="12">
-                <el-card shadow="hover">
-                    <schart ref="bar" class="schart" canvasId="bar" :options="options"></schart>
-                </el-card>
-            </el-col>
-            <el-col :span="12">
-                <el-card shadow="hover">
-                    <schart ref="line" class="schart" canvasId="line" :options="options2"></schart>
-                </el-card>
-            </el-col>
-        </el-row>-->
+
+    <el-row>
+      <el-col style="width: 50%">
+        <el-card shadow="hover">
+          <el-tabs type="card" @tab-click="handleClick">
+            <el-tab-pane label="数学" name="1"></el-tab-pane>
+            <el-tab-pane label="英语" name="second"></el-tab-pane>
+            <el-tab-pane label="语文" name="third"></el-tab-pane>
+            <el-tab-pane label="物理" name="fourth"></el-tab-pane>
+          </el-tabs>
+          <el-table
+            :data="tabledataset"
+            header-row-class-name="header_row_className"
+            height="420"
+            border
+            style="width: 100%"
+          >
+            <el-table-column align="center" prop="subject" label="科目">
+            </el-table-column>
+            <el-table-column align="center" prop="credit" label="学分">
+            </el-table-column>
+            <el-table-column prop="score" label="分数" align="center">
+            </el-table-column>
+            <el-table-column
+              prop="point"
+              label="绩点"
+              align="center"
+              width="100"
+            >
+            </el-table-column>
+            <el-table-column prop="term" label="学期" align="center">
+            </el-table-column>
+          </el-table>
+        </el-card>
+      </el-col>
+      <el-col :span="12">
+        <el-card shadow="hover">
+          <schart
+            ref="line"
+            class="schart"
+            canvasId="line"
+            :options="options2"
+          ></schart>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
+import path from "path";
 import Schart from "vue-schart";
 export default {
   name: "student",
   data() {
     return {
-        workDetailDialogVisible: false,
+      tableData: [
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 4 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 2 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 3 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 1 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 2 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 3 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 1 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 2 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 1 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 3 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 2 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 4 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 2 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 3 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 1 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 4 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 2 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 3 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 1 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 4 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 2 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 3 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 1 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 4 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 2 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 3 },
+        { subject: "高数", credit: 3, score: 96, point: 15.3, term: 1 },
+      ],
+      table_data: [],
+      tabledataset: [],
+      date: "",
+      name: "",
+      address: "",
+      workDetailDialogVisible: false,
       now: "",
       name: localStorage.getItem("ms_username"),
-      todoList: [
-        {
-          title: "今天要写完*数学作业",
-          status: false,
-        },
-        {
-          title: "今天要写完语文作业",
-          status: false,
-        },
-        {
-          title: "今天要写完英语作业",
-          status: false,
-        },
-        {
-          title: "今天要写完寒假作业",
-          status: false,
-        },
-        {
-          title: "今天要写完暑假作业",
-          status: true,
-        },
-        {
-          title: "今天要写你妈卖批作业",
-          status: true,
-        },
-      ],
       data: [
         {
           name: "2019/09/04",
@@ -247,7 +333,7 @@ export default {
       },
     };
   },
- 
+
   components: {
     Schart,
   },
@@ -256,6 +342,7 @@ export default {
       return this.name === "admin" ? "超级管理员" : "普通用户";
     },
   },
+
   mounted() {
     this.init();
   },
@@ -263,6 +350,7 @@ export default {
     init() {
       this.now = new Date();
       console.log(this.now);
+      this.table_data = this.tableData;
     },
     changeDate() {
       const now = new Date().getTime();
@@ -273,14 +361,40 @@ export default {
         }/${date.getDate()}`;
       });
     },
-    correct(){
-        this.workDetailDialogVisible = true;
+    handleClick(key) {
+      this.tabledataset = [];
+      // key = key + 1
+      let index = key.index;
+      index = parseInt(index) + 1;
+      console.log(key.index);
+      for (let i in this.tableData) {
+        console.log(index);
+        if (this.tableData[i].term == index) {
+          console.log(this.tableData[i]);
+          this.tabledataset.push(this.tableData[i]);
+        }
+      }
     },
-    // queryWorkTimeAssignmentInfo(iterationPlanId) {
-    //   this.workDetailDialogVisible = true;
-    // },
+
+    // 修改信息对话框
+    correct() {
+      this.workDetailDialogVisible = true;
+    },
+
+    // 对话框信息提交
+    submit() {
+      this.workDetailDialogVisible = false;
+    },
     resetWorkTime() {
       this.zhipaiTotal = 0;
+    },
+    handleSelect(key, keyPath) {
+      this.table_data = [];
+      for (let i in this.tableData) {
+        if (this.tableData[i].term == key) {
+          this.table_data.push(this.tableData[i]);
+        }
+      }
     },
   },
 };
