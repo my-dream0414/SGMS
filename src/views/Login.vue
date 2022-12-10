@@ -26,12 +26,9 @@
                   >
                   </el-input>
                 </div>
-                <div class="login_remember">
-                  <el-radio v-model="radio" label="1">记住账号</el-radio>
-                </div>
               </div>
               <div class="login_button">
-                <el-button type="primary" class="login_btn" @click="login"
+                <el-button type="primary" class="login_btn" @click="handelClick"
                   >登录</el-button
                 >
                 <p class="tipText">
@@ -50,8 +47,10 @@
     </div>
   </div>
 </template>
- 
- <script>
+
+<script>
+import { Message } from "element-ui";
+import { mockUrl } from "../config/index";
 export default {
   name: "Login",
   data() {
@@ -59,86 +58,51 @@ export default {
       msg: "dapeng",
       password: "",
       name: "",
-      radio: "",
     };
   },
-  computed: {
-    GetUserinfo() {
-      return this.$store.state.userinfo;
-    },
-  },
-  watch: {
-    GetUserinfo: function () {
-      var x = this.$store.state.userinfo;
-      // login()
-    },
-  },
   methods: {
-    login() {
-      console.log("login method");
-      // this.$axios.post(url,{
-      //   username:this.name,
-      //   password:this.password
-      // }).then(res=>{
-      //   console.log(res);
-      //   var content = res.data;
-      //   console.log(content);
-      //   if(content.code == 1){
-      //     if(this.name=='admin'){
-      //       this.$router.push('/Main');
-      //       bus.$emit('user',this.name);
-      //       this.$store.commit("admin");
-      //     }else{
-      //       this.$router.push('/sMain');
-      //       bus.$emit('user',this.name);
-      //       this.$store.commit("student",this.name);
-      //     }
-      //     this.$message({
-      //       message:"登录成功",
-      //       type:"success"
-      //     })
-      //   }else if(content.code == 0){
-      //       this.$message({
-      //       message:"用户未注册",
-      //       type:"warning"
-      //     })
-      //   }else{
-      //       this.$message({
-      //       message:"密码错误",
-      //       type:"error"
-      //     })
-      //   }
-      // })
-      if (this.name == "admin" && this.password == "123456") {
-        console.log("信息认证")
-        if (this.name == "admin") {
-          console.log("认证成功")
-          // this.$router.push("/admin");
-          this.$router.push({ path: '/admin' }, () => {})
-          this.$store.commit('GetUserinfo',this.name)
-          localStorage.setItem("name","caibin")
-          localStorage.name = "caibin"
-        }
-        // this.message({
-        //   message: "登录成功",
-        //   type: "success",
-        // });
-      } else if (this.name == "student" && this.password == "123456") {
-        this.$router.push("/student");
-        localStorage.setItem("name","student")
-          localStorage.name = "student"
-      } else if (this.name == "headteacher" && this.password == "123456") {
-        this.$router.push("/head");
-      } else if (this.name == "teacher" && this.password == "123456") {
-        this.$router.push("/teach");
+    async login(url = "", data = {}) {
+      const res = await fetch(url, {
+        method: "post",
+        body: JSON.stringify(data),
+      });
+      return res.json();
+    },
+    handelClick() {
+      if (!this.name || !this.password) {
+        return Message.error({
+          message: "请输入完整的登陆信息！",
+          duration: 1000,
+        })
       }
+      this.login(mockUrl + "/userLogin", {
+        userName: this.name,
+        userPwd: this.password,
+      })
+        .then((res) => {
+          localStorage.setItem("token", res.data.token);
+          Message.success({
+            message: "登录成功！",
+            duration: 1000,
+            center: true,
+          });
+          this.$store.commit("setUserInfo", res.data);
+          this.$router.replace({ path: `/${res.data.role}`, replace: true });
+        })
+        .catch((err) =>
+          Message.error({
+            message: err || "登录失败！",
+            duration: 1000,
+            center: true,
+          })
+        );
     },
   },
 };
 </script>
- 
- <!-- Add "scoped" attribute to limit CSS to this component only -->
- <style scoped>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
 .login {
   height: 100%;
   width: 100%;
