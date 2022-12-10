@@ -37,16 +37,18 @@ export default {
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
+* {
+  margin: 0;
+  padding: 0;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 5px;
 }
 </style>

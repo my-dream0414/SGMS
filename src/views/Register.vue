@@ -8,10 +8,25 @@
             <div class="login_input_box">
               <div class="login_input_detali">
                 <div class="login_user">
-                  <el-input size="large" placeholder="用户名" prefix-icon="el-icon-user" v-model="data.name" class="left">
+                  <el-input
+                    size="large"
+                    placeholder="用户名"
+                    prefix-icon="el-icon-user"
+                    v-model="data.name"
+                    class="left"
+                  >
                   </el-input>
-                  <el-select v-model="data.value" placeholder="请选择身份" class="right">
-                    <el-option v-for="item in data.options" :key="item.value" :label="item.label" :value="item.value">
+                  <el-select
+                    v-model="data.value"
+                    placeholder="请选择身份"
+                    class="right"
+                  >
+                    <el-option
+                      v-for="item in data.options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    >
                     </el-option>
                   </el-select>
                 </div>
@@ -61,22 +76,22 @@
 </template>
 
 <script>
-import { Message } from 'element-ui';
-import { mockUrl } from '../config';
+import { Message } from "element-ui";
+import { mockUrl } from "../config";
 export default {
   name: "register",
   data() {
     return {
       data: {
-      name: "",
-      email: "",
-      password: "",
-      password2: "",
-      options: [
-        { value: "学生", label: "学生" },
-        { value: "教师", label: "教师" },
-      ],
-      value: "",
+        name: "",
+        email: "",
+        password: "",
+        password2: "",
+        options: [
+          { value: "学生", label: "学生" },
+          { value: "教师", label: "教师" },
+        ],
+        value: "",
       },
       confirmData: {
         name: "用户名不能为空！",
@@ -84,7 +99,7 @@ export default {
         value: "身份选择不能为空！",
         password: "密码不能为空！",
         password2: "密码不能为空！",
-      }
+      },
     };
   },
   methods: {
@@ -94,14 +109,14 @@ export default {
           return Message.error({
             message: this.confirmData[key],
             duration: 1000,
-          })
+          });
         }
       }
       if (this.data.password !== this.data.password2) {
         return Message.error({
           message: "两次密码不一致!",
           duration: 1000,
-        })
+        });
       }
       const res = await fetch(url, {
         method: "post",
@@ -111,33 +126,33 @@ export default {
     },
     handelClick() {
       const roleData = {
-        "学生": "student",
-        "教师": "teacher",
-      }
+        学生: "student",
+        教师: "teacher",
+      };
       this.register(mockUrl + "/userRegiste", {
         name: this.data.name,
         email: this.data.email,
         password: this.data.password,
         role: roleData[this.data.value],
-      }).then(res => {
-        if (!res.data) {
-          return;
-        }
-        Message.success({
-          message: "注册成功，即将返回登录页面。",
-          duration: 1000,
-          onClose: () => this.$router.push(`/login`)
-        })
-
-      }).catch(error => {
-        return Message.error({
-          message: error || "注册失败，请稍候重试！",
-          duration: 1500,
-        })
       })
+        .then((res) => {
+          if (!res.data) {
+            return;
+          }
+          Message.success({
+            message: "注册成功，即将返回登录页面。",
+            duration: 1000,
+            onClose: () => this.$router.push(`/login`),
+          });
+        })
+        .catch((error) => {
+          return Message.error({
+            message: error || "注册失败，请稍候重试！",
+            duration: 1500,
+          });
+        });
     },
   },
-
 };
 </script>
 
@@ -189,10 +204,10 @@ export default {
   margin: 0;
   padding: 40px 0;
   color: rgba(0, 0, 0, 0.8);
-    text-align: center;
-    font-size: 40px;
-    font-weight: 500;
-  }
+  text-align: center;
+  font-size: 40px;
+  font-weight: 500;
+}
 .login_email {
   margin-top: 30px;
 }

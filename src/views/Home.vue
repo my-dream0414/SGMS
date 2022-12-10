@@ -30,7 +30,6 @@ export default {
       who: localStorage.getItem("Mcomponent"),
     };
   },
-  // created() {
   //     bus.$on('collapse-content', msg => {
   //         this.collapse = msg;
   //     });

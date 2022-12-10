@@ -34,14 +34,29 @@ const routes = [
         children: [],
       },
       {
-        // 班主任模块路由
         path: "/teacher",
-        component: () =>
-          import(
-            /* webpackChunkName: "dashboard" */ "../components/teacher/Main.vue"
-          ),
-        meta: { title: "班主任首页" },
-        // children:[]  班主任下一级路由
+        component: () => import("../components/teacher/Main.vue"),
+        meta: { title: "教师首页" },
+        children: [
+          {
+            meta: { title: "学生成绩管理" },
+            name: "grade",
+            path: "/teacher/GradeManage",
+            component: () => import("../components/teacher/GradeManage.vue"),
+          },
+          {
+            meta: { title: "课程信息管理" },
+            name: "source",
+            path: "/teacher/SourceManage",
+            component: () => import("../components/teacher/SourceManage.vue"),
+          },
+          {
+            meta: { title: "学生信息管理" },
+            name: "stuInfo",
+            path: "/teacher/StuInfoManage",
+            component: () => import("../components/teacher/StuInfoManage.vue"),
+          },
+        ],
       },
     ],
   },
