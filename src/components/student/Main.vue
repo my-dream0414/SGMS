@@ -35,19 +35,20 @@
 
 <script>
 // import Schart from "vue-schart";
-import { mockUrl } from '../../config';
+import { mockUrl } from "../../config";
 export default {
   name: "student",
   data() {
     return {
       workDetailDialogVisible: false,
       userName: "",
-      role: '',
+      role: "",
       class: "",
       stuId: "",
       major: "",
     };
   },
+
 
   components: {
   },
@@ -64,8 +65,7 @@ export default {
       this.class = data.class;
       this.stuId = data.stuId;
       this.major = data.major;
-    })
-
+    });
   },
   methods: {
     async getInfo() {
@@ -73,10 +73,11 @@ export default {
       const res = await fetch(mockUrl + "/getStudentInfo", {
         headers: {
           token: token,
-        }
-      })
-      return res.json()
-    }
+
+        },
+      });
+      return res.json();
+    },
   },
 };
 </script>
