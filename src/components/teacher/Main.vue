@@ -4,6 +4,7 @@
         <el-col>
           <el-menu class="el-menu-vertical-demo" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"
             router :default-openeds=open :default-active="this.$route.path">
+            <el-menu-item index="/teacher">首页</el-menu-item>
             <el-submenu index="student">
               <template slot="title">
                 <i class="el-icon-location"></i>
