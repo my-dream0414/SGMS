@@ -39,6 +39,7 @@ export default {
 
 #nav {
   padding: 30px;
+  padding-top: 10px;
 }
 
 #nav a {

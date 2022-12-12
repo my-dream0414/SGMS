@@ -3,6 +3,13 @@ import VueRouter from "vue-router";
 // import Home from '../views/Home.vue'
 Vue.use(VueRouter);
 
+// 获取原型对象上的push函数
+const originalPush = VueRouter.prototype.push
+// 修改原型对象中的push方法
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
 const routes = [
   {
     path: "/",
@@ -31,7 +38,42 @@ const routes = [
             /* webpackChunkName: "dashboard" */ "../components/student/Main.vue"
           ),
         meta: { title: "学生首页" },
-        children: [],
+        children: [
+          {
+            path: "/selfinfo",
+            component: () =>
+              import(
+                /* webpackChunkName: "dashboard" */ "../components/student/Selfinfo.vue"
+              ),
+              meta: { title: "个人信息" },
+          },
+          {
+            path: "/Grade",
+            component: () =>
+              import(
+                /* webpackChunkName: "dashboard" */ "../components/student/Grade.vue"
+              ),
+              meta: { title: "成绩概览" },
+          },
+          {
+            path: "/Correct",
+            component: () =>
+              import(
+                /* webpackChunkName: "dashboard" */ "../components/student/Correct.vue"
+              ),
+              meta: { title: "信息修改" },
+          },
+          {
+            path: "/ScoreAn",
+            component: () =>
+              import(
+                /* webpackChunkName: "dashboard" */ "../components/student/ScoreAn.vue"
+              ),
+              meta: { title: "成绩分析" },
+          }
+
+          
+        ],
       },
       {
         // 班主任模块路由
