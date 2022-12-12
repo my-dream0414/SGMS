@@ -76,14 +76,37 @@ const routes = [
         ],
       },
       {
-        // 班主任模块路由
         path: "/teacher",
-        component: () =>
-          import(
-            /* webpackChunkName: "dashboard" */ "../components/teacher/Main.vue"
-          ),
-        meta: { title: "班主任首页" },
-        // children:[]  班主任下一级路由
+        component: () => import("../components/teacher/Main.vue"),
+        meta: { title: "教师首页" },
+        children: [
+          {
+            meta: { title: "教师首页" },
+            name: "teacher",
+            path: "/teacher",
+            component: () => import("../components/teacher/Home.vue"),
+          },
+          {
+            meta: { title: "学生成绩管理" },
+            name: "grade",
+            path: "/teacher/GradeManage",
+            component: () => import("../components/teacher/GradeManage.vue"),
+          },
+          
+          {
+            meta: { title: "课程信息管理" },
+            name: "source",
+            path: "/teacher/SourceManage",
+            component: () => import("../components/teacher/SourceManage.vue"),
+          },
+          {
+            meta: { title: "学生信息管理" },
+            name: "stuInfo",
+            path: "/teacher/StuInfoManage",
+            component: () => import("../components/teacher/StuInfoManage.vue"),
+          },
+        ],
+
       },
     ],
   },
@@ -112,24 +135,23 @@ const router = new VueRouter({
 });
 
 // 全局前置路由守卫---初始化的时候被调用、每次路由切换的时候被调用
-router.beforeEach((to, from, next) => {
-  console.log(to);
-  //这里是一个简单的例子
-  //即判断用户是否进入了需要鉴权的路由下（这里距离为news和message）
-  if (to.path == '/admin' || to.path === '/teach' || to.path === '/student') {
-    //如果进入了，那就判断本地是否缓存了信息（这里模拟登录的token)
-    console.log(localStorage)
-    if (localStorage.getItem('name') === 'student') {
-      next()
-    }
-    else{
-      console.log("回到登录页面")
-      next({ path : " \login " })
-      // next()
-    }
-  }else{
-    next()
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   console.log(to);
+//   //这里是一个简单的例子
+//   //即判断用户是否进入了需要鉴权的路由下（这里距离为news和message）
+//   if (to.path == "/admin" || to.path === "/teacher" || to.path === "/student") {
+//     //如果进入了，那就判断本地是否缓存了信息（这里模拟登录的token)
+//     console.log(localStorage);
+//     if (localStorage.getItem("name") === "student") {
+//       next();
+//     } else {
+//       console.log("回到登录页面");
+//       next({ path: "/login " });
+//       // next()
+//     }
+//   } else {
+//     next();
+//   }
+// })
 
 export default router;
