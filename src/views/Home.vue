@@ -1,10 +1,5 @@
 <template>
   <div class="wrapper">
-    <!-- <v-sidebar v-if="admin"></v-sidebar>
-      <v-sidebart v-else ></v-sidebart> -->
-    <!-- <component :is="who"></component> -->
-    <!-- <component :is="who"></component> -->
-
     <div class="content-box" :class="{ 'content-collapse': collapse }">
       <div class="content">
         <transition name="move" mode="out-in">
