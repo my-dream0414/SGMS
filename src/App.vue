@@ -51,4 +51,7 @@ export default {
   background: #ccc;
   border-radius: 5px;
 }
+html {
+  overflow: hidden;
+}
 </style>

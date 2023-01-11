@@ -73,6 +73,7 @@ export default {
                 method: "post",
                 headers: {
                     token: token,
+                    'Content-Type': 'application/json;charset=UTF-8',
                 },
                 body: JSON.stringify(data),
             });

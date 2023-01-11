@@ -65,6 +65,9 @@ export default {
       const res = await fetch(url, {
         method: "post",
         body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+        }
       });
       return res.json();
     },

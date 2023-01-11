@@ -6,9 +6,9 @@
             </el-table-column>
             <el-table-column label="姓名" prop="name">
             </el-table-column>
-            <el-table-column label="班级" prop="class">
+            <el-table-column label="班级" prop="tclass">
             </el-table-column>
-            <el-table-column label="课程名" prop="sourceName">
+            <el-table-column label="课程名" prop="course">
             </el-table-column>
             <el-table-column label="课程成绩" prop="grade" sortable>
             </el-table-column>
@@ -34,10 +34,10 @@
                 </div>
 
                 <div>
-                    <span>班级：</span> <el-input v-model="change.class" size="mid" placeholder="请输入修改后信息" />
+                    <span>班级：</span> <el-input v-model="change.tclass" size="mid" placeholder="请输入修改后信息" />
                 </div>
                 <div>
-                    <span>课程：</span> <el-input v-model="change.source" size="mid" placeholder="请输入修改后信息" />
+                    <span>课程：</span> <el-input v-model="change.course" size="mid" placeholder="请输入修改后信息" />
                 </div>
                 <div>
                     <span>成绩：</span> <el-input v-model="change.grade" size="mid" placeholder="请输入修改后信息" />
@@ -74,8 +74,8 @@ export default {
             change: {
                 id: '',
                 name: '',
-                class: "",
-                source: "",
+                tclass: "",
+                course: "",
                 grade: "",
             },
             index: '',
@@ -104,6 +104,7 @@ export default {
                 method: "post",
                 headers: {
                     token: token,
+                    'Content-Type': 'application/json;charset=UTF-8',
                 },
                 body: JSON.stringify(data),
             });
@@ -114,7 +115,8 @@ export default {
             const res = await fetch(url, {
                 headers: {
                     token: token,
-                }
+
+                },
             });
             return res.json();
         },
@@ -122,8 +124,8 @@ export default {
             this.index = index;
             this.change.id = row.id
             this.change.name = row.name
-            this.change.class = row.class
-            this.change.source = row.sourceName
+            this.change.tclass = row.tclass
+            this.change.course = row.course
             this.change.grade = row.grade
         },
         handleEdit(index, row) {
@@ -167,6 +169,13 @@ export default {
                     this.tableData = [...newTbaleData];
                     Message.success({
                         message: "修改成功!",
+                        duration: 1000,
+                        onClose: () => this.dialogVisible = false,
+                    })
+                }
+                else {
+                    Message.error({
+                        message: res.msg,
                         duration: 1000,
                         onClose: () => this.dialogVisible = false,
                     })

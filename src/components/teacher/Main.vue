@@ -93,7 +93,7 @@ export default {
   background-color: #f3f3f3;
   color: #333;
   text-align: center;
-  line-height: 60px;
+  height: 60px;
   margin-left: 200px;
 }
 
